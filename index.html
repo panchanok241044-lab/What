@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>มีเรื่องจะถาม 👀</title>
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#fff1b8;--bg2:#ffd6e3;--card:#fffaf0;--ink:#6b4226;--sub:#a0714f;--pink:#ff8fb1;--pink2:#f2639a;--yellow:#ffd54f;--soft:#ffe6a8;--line:#e8c9a0;--shadow:rgba(107,66,38,.25);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#3b2615;--bg2:#4a2a3b;--card:#533521;--ink:#ffeccc;--sub:#f2c9a0;--soft:#6e4a2c;--line:#8a6240;--shadow:rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg1:#3b2615;--bg2:#4a2a3b;--card:#533521;--ink:#ffeccc;--sub:#f2c9a0;--soft:#6e4a2c;--line:#8a6240;--shadow:rgba(0,0,0,.4)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:linear-gradient(160deg,var(--bg1),var(--bg2));font-family:'Mali','Sarabun','Noto Sans Thai',sans-serif;color:var(--ink);display:flex;align-items:center;justify-content:center;overflow:hidden;padding:16px}
+.card{position:relative;z-index:2;background:var(--card);border-radius:32px;padding:30px 24px;max-width:380px;width:100%;text-align:center;box-shadow:0 12px 0 var(--soft),0 18px 40px var(--shadow);border:3px dashed var(--line)}
+.hero{font-size:76px;display:inline-block;animation:bounce 1.6s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14px) rotate(4deg)}}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg) scale(1.1)}75%{transform:rotate(14deg) scale(1.1)}}
+h1{font-size:25px;margin:8px 0 6px;line-height:1.45}
+.tag{display:inline-block;background:var(--yellow);color:#5a3716;padding:4px 16px;border-radius:99px;font-weight:700;margin-bottom:6px}
+p{color:var(--sub);margin:6px 0 18px;font-size:16px;line-height:1.6}
+.hints{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:0 0 16px}
+.hints span{background:var(--soft);padding:5px 12px;border-radius:99px;font-size:14px;opacity:0;transform:scale(.6);animation:pop .4s forwards}
+@keyframes pop{to{opacity:1;transform:scale(1)}}
+.hints span:nth-child(1){animation-delay:.6s}.hints span:nth-child(2){animation-delay:1.2s}.hints span:nth-child(3){animation-delay:1.8s}.hints span:nth-child(4){animation-delay:2.4s}
+#box{font-size:96px;background:none;border:0;cursor:pointer;padding:0;line-height:1;filter:drop-shadow(0 8px 6px var(--shadow))}
+#box.shake{animation:shake .4s}
+.meter{height:12px;background:var(--soft);border-radius:99px;overflow:hidden;margin:10px auto 6px;max-width:220px}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--yellow),var(--pink));transition:width .3s}
+button{font-family:inherit;font-weight:700;border:0;border-radius:99px;cursor:pointer;transition:transform .15s}
+.btns{position:relative;height:130px}
+#yes{background:linear-gradient(135deg,var(--pink),var(--pink2));color:#fff;font-size:20px;padding:14px 34px;box-shadow:0 6px 0 #c9457c}
+#yes:active{transform:translateY(4px);box-shadow:0 2px 0 #c9457c}
+#no{background:var(--soft);color:var(--ink);font-size:15px;padding:10px 22px;position:absolute;left:50%;top:78px;transform:translateX(-50%);white-space:nowrap}
+#copy{margin-top:14px;background:var(--yellow);color:#5a3716;padding:10px 22px;font-size:15px}
+.hide{display:none}
+.fall{position:fixed;top:-40px;z-index:1;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:.9}}
+</style>
+</head>
+<body>
+
+<div class="card" id="intro">
+  <div class="tag">🤫 ความลับ</div>
+  <h1>เดาสิ…<br>ฉันจะชวนไปทำอะไรนะ? 👀</h1>
+  <div class="hints">
+    <span>🔥 ร้อนๆ</span><span>🧀 มีชีส</span><span>😋 กินได้</span><span>📅 วันศุกร์</span>
+  </div>
+  <button id="box" aria-label="กล่องปริศนา">🎁</button>
+  <div class="meter"><i id="bar"></i></div>
+  <p id="hint">แตะกล่องรัวๆ เพื่อเปิดดูคำตอบ!</p>
+</div>
+
+<div class="card hide" id="ask">
+  <div class="hero" id="emoji">🍢</div>
+  <div class="tag">เฉลยแล้ว ✨</div>
+  <h1>คุณจะไปกิน Dooki<br>กับฉันไหม?</h1>
+  <p>📅 วันศุกร์นี้นะ~ 🥺💕</p>
+  <div class="btns">
+    <button id="yes">ไปสิ! 💖</button>
+    <button id="no">ไม่ไป 😢</button>
+  </div>
+</div>
+
+<div class="card hide" id="done">
+  <div class="hero">🥳</div>
+  <h1>เย้! นัดแล้วนะ 💕</h1>
+  <p>เจอกันวันศุกร์ที่ Dooki 🍢🧀<br>เตรียมท้องไว้ให้ว่างด้วยล่ะ!</p>
+  <button id="copy">📋 คัดลอกข้อความตอบกลับ</button>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var taps=0,need=5,txt=['อีกนิดเดียว!','แรงๆ เลย 💪','ใกล้แล้ว~','สั่นแล้วๆ 👀'];
+function show(id){['intro','ask','done'].forEach(function(x){$(x).classList.add('hide')});$(id).classList.remove('hide')}
+function rain(){
+  var items=['🍢','💖','🧀','🌸','✨','🍯','💕'];
+  for(var i=0;i<40;i++){
+    var s=document.createElement('span');s.className='fall';
+    s.textContent=items[i%items.length];
+    s.style.left=Math.random()*100+'vw';
+    s.style.fontSize=(18+Math.random()*22)+'px';
+    s.style.animationDuration=(2.5+Math.random()*3)+'s';
+    s.style.animationDelay=(Math.random()*1.5)+'s';
+    document.body.appendChild(s);
+    setTimeout(function(el){el.remove()},8000,s);
+  }
+}
+$('box').addEventListener('click',function(){
+  var b=this;taps++;
+  b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');
+  $('bar').style.width=(taps/need*100)+'%';
+  $('hint').textContent=taps<need?txt[taps%txt.length]:'เปิดแล้ว!! 🎉';
+  if(taps>=need){b.textContent='💥';setTimeout(function(){show('ask');rain()},450)}
+});
+var yes=$('yes'),no=$('no'),n=0,scale=1;
+var msgs=['ไม่ไป 😢','คิดดีๆ นะ 🥺','ใจร้ายจัง 😭','ขอร้องล่ะ 🥹','ลองกดอีกปุ่มสิ 💗','จับไม่ได้หรอก 😜'];
+function dodge(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  n++;no.textContent=msgs[n%msgs.length];
+  var box=document.querySelector('.btns').getBoundingClientRect();
+  no.style.left=(Math.random()*(box.width-110)+55)+'px';
+  no.style.top=(Math.random()*(box.height-30))+'px';
+  scale=Math.min(scale+0.12,1.9);yes.style.transform='scale('+scale+')';
+  $('emoji').textContent=['🥺','😿','🍢','🥹'][n%4];
+}
+no.addEventListener('mouseenter',dodge);
+no.addEventListener('touchstart',dodge,{passive:false});
+no.addEventListener('click',dodge);
+yes.addEventListener('click',function(){show('done');rain();setTimeout(rain,1800)});
+$('copy').addEventListener('click',function(){
+  var t='ไปจ้า! เจอกันวันศุกร์ที่ Dooki 🍢💕',b=this;
+  function ok(){b.textContent='คัดลอกแล้ว ✅ ไปแปะแชทได้เลย'}
+  try{navigator.clipboard.writeText(t).then(ok,ok)}catch(e){ok()}
+});
+</script>
+</body>
+</html>
